@@ -65,6 +65,78 @@ public class TestBiblioteca {
 	
 	}
 	
+	@Test
+	public void conociendoQueExisteUnaBibliotecaAgregarEstantesALaMisma() {
+		
+		Biblioteca biblioteca = new Biblioteca("Aurora Literaria");
+		
+		Estante estante1 = new Estante(001, Genero.PARANORMAL);
+		
+		biblioteca.agregarEstanteALaBiblioteca(estante1);
+		
+		assertEquals(1, biblioteca.getEstantes().size());
+	
+	}
+	
+
+	@Test
+	public void conociendoQueExisteUnaBibliotecaConEstantesAgregarUnLibroEnElEstanteConGeneroIgualAlDelLibro() {
+		
+		Biblioteca biblioteca = new Biblioteca("Aurora Literaria");
+		
+		Estante estante1 = new Estante(001, Genero.FICCION);
+		
+		biblioteca.agregarEstanteALaBiblioteca(estante1);
+		
+		Persona autor = new Autor(23456789, "Andrea", "Tomé Yáñez", 29);
+		
+		Libro libro1 = new Libro(8416820864L, "Desayuno En Júpiter", (Autor)autor, 440, TipoTapa.BLANDA, 2017, Genero.FICCION);
+		
+		biblioteca.agregarLibroALaBiblioteca(libro1);
+		
+		Boolean agregado = biblioteca.agregarLibroAlEstante(estante1, libro1);
+		
+		Libro esperado = new Libro(8416820864L, "Desayuno En Júpiter", (Autor)autor, 440, TipoTapa.BLANDA, 2017, Genero.FICCION);
+		
+		assertTrue(agregado);
+		assertEquals(esperado, estante1.getLibro());
+	}
+	
+	@Test
+	public void conociendoQueExisteUnaBibliotecaConEstantesConLibrosQueLaRecepcionistaCreeUnRegistroYSeVacieElEstanteCuandoUnClienteRenteUnLibro() {
+		
+		Biblioteca biblioteca = new Biblioteca("Aurora Literaria");
+		Estante estante1 = new Estante(001, Genero.FICCION);
+		Persona autor = new Autor(23456789, "Andrea", "Tomé Yáñez", 29);
+		Libro libro1 = new Libro(8416820864L, "Desayuno En Júpiter", (Autor)autor, 440, TipoTapa.BLANDA, 2017, Genero.FICCION);
+		Persona cliente = new Cliente(34567890, "Julian", "Perez", 39);
+		Persona recepcionista = new Recepcionista(43227800, "Lorenzo", "Dominguez", 55);
+		
+		biblioteca.agregarEstanteALaBiblioteca(estante1);
+		biblioteca.agregarLibroALaBiblioteca(libro1);
+		biblioteca.agregarLibroAlEstante(estante1, libro1);
+		biblioteca.agregarClienteALaBiblioteca(cliente);
+		biblioteca.agregarRecepcionistaALaBiblioteca(recepcionista);
+		
+		Genero genero = Genero.FICCION;
+		String nombreLibro = "Desayuno En Júpiter";
+		
+		biblioteca.rentarLibro(recepcionista, cliente, genero, nombreLibro);
+		
+		Integer totalDeRentasEsperadas = 1;
+		Integer rentasTotales = biblioteca.getRentas().size();
+		
+		assertEquals(totalDeRentasEsperadas, rentasTotales);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 

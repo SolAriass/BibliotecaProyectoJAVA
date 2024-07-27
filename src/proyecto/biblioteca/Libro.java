@@ -1,5 +1,7 @@
 package proyecto.biblioteca;
 
+import java.util.Objects;
+
 public class Libro {
 
 	private Long ISBN;
@@ -74,6 +76,29 @@ public class Libro {
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ISBN);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Libro other = (Libro) obj;
+		return Objects.equals(ISBN, other.ISBN);
+	}
+
+	@Override
+	public String toString() {
+		return "Libro [ISBN=" + ISBN + ", titulo=" + titulo + ", autor=" + autor + ", nroPaginas=" + nroPaginas
+				+ ", tipoTapa=" + tipoTapa + ", anioCreacion=" + anioCreacion + ", genero=" + genero + "]";
 	}
 
 	
